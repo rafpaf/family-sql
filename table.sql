@@ -78,14 +78,16 @@ on (child2grandchild.RelRecId2 = grandchild.PersonId OR child2grandchild.RelRecI
 -- JewishMeNames as sibling
 -- on p.PersonId = p2sibling.PersonId
 
-where true
+WHERE TRUE
 -- AND p2child.rel = 'family'
 -- AND (r.Relationship_1 IN ('father of', 'mother of') OR r.Relationship_1 IS NULL)
-AND (child2grandchild.Relationship_1 IN ('father of', 'mother of') OR child2grandchild.Relationship_1 IS NULL)
+AND (
+    child2grandchild.Relationship_1 IN ('father of', 'mother of')
+    OR child2grandchild.Relationship_1 IS NULL)
 -- AND (mother2sibling.Relationship_1 IN ('sister of', 'brother of') OR mother2sibling.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
 AND p.PersonId = 2163
 
-group by person, spouse, mother, father, grandparents
-limit 200;
+GROUP BY person, spouse, mother, father, grandparents
+LIMIT 200;
