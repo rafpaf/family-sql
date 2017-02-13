@@ -3,41 +3,33 @@ SET SQL_BIG_SELECTS=1;
 select
 -- p.PersonId,
 -- p.spouseid, p.motherid, p.fatherid,
-UPPER(concat(p.AAFirstName, ' ', p.AASurname)) as person,
-if (spouse.Cemetery LIKE '%Sinai%', concat('spouse: ', spouse.AAFirstName, ' ', spouse.AASurname), '') as spouse,
-if (mother.Cemetery LIKE '%Sinai%', concat('mother: ', mother.AAFirstName, ' ', mother.AASurname), '') as mother,
-if (father.Cemetery LIKE '%Sinai%', concat('father: ', father.AAFirstName, ' ', father.AASurname), '') as father,
+UPPER(p.fullname) as person,
+if (spouse.Cemetery LIKE '%Sinai%', concat('spouse: ', spouse.fullname), '') as spouse,
+if (mother.Cemetery LIKE '%Sinai%', concat('mother: ', mother.fullname), '') as mother,
+if (father.Cemetery LIKE '%Sinai%', concat('father: ', father.fullname), '') as father,
 concat('grandparents: ',
     -- maternal bubbe and zayde
-    if (mbubbe.Cemetery LIKE '%Sinai%',
-        concat(mbubbe.AAFirstName, ' ', mbubbe.AASurname, ', '), ''),
-    if (mzayde.Cemetery LIKE '%Sinai%',
-        concat(mzayde.AAFirstName, ' ', mzayde.AASurname, ', '), ''),
+    if (mbubbe.Cemetery LIKE '%Sinai%', mbubbe.fullname, ''),
+    if (mzayde.Cemetery LIKE '%Sinai%', mzayde.fullname, ''),
     -- if maternal bubbe's spouse is different from maternal zayde:
     if (mbubbespouse.PersonId <> mzayde.PersonId
-        AND mbubbespouse.Cemetery LIKE '%Sinai%',
-        concat(mbubbespouse.AAFirstName, ' ', mbubbespouse.AASurname, ', '), ''),
+        AND mbubbespouse.Cemetery LIKE '%Sinai%', mbubbespouse.fullname, ''),
     -- if maternal zayde's spouse is different from maternal bubbe:
     if (mzaydespouse.PersonId <> mbubbe.PersonId
-        AND mzaydespouse.Cemetery LIKE '%Sinai%',
-        concat(mzaydespouse.AAFirstName, ' ', mzaydespouse.AASurname, ', '), ''),
+        AND mzaydespouse.Cemetery LIKE '%Sinai%', mzaydespouse.fullname, ''),
     -- paternal bubbe and zayde
-    if (pbubbe.Cemetery LIKE '%Sinai%',
-        concat(pbubbe.AAFirstName, ' ', pbubbe.AASurname, ', '), ''),
-    if (pzayde.Cemetery LIKE '%Sinai%',
-        concat(pzayde.AAFirstName, ' ', pzayde.AASurname, ', '), ''),
+    if (pbubbe.Cemetery LIKE '%Sinai%', pbubbe.fullname, ''),
+    if (pzayde.Cemetery LIKE '%Sinai%', pzayde.fullname, ''),
     -- if paternal bubbe's spouse is different from paternal zayde:
     if (pbubbespouse.PersonId <> pzayde.PersonId
-        AND pbubbespouse.Cemetery LIKE '%Sinai%',
-        concat(pbubbespouse.AAFirstName, ' ', pbubbespouse.AASurname, ', '), ''),
+        AND pbubbespouse.Cemetery LIKE '%Sinai%', pbubbespouse.fullname, ''),
     -- if paternal zayde's spouse is different from paternal bubbe:
     if (pzaydespouse.PersonId <> pbubbe.PersonId
-        AND pzaydespouse.Cemetery LIKE '%Sinai%',
-        concat(pzaydespouse.AAFirstName, ' ', pzaydespouse.AASurname, ', '), ''),
+        AND pzaydespouse.Cemetery LIKE '%Sinai%', pzaydespouse.fullname, '')
     ) as grandparents,
-concat('auncles:', auntuncle.AAFirstName, ' ', auntuncle.AASurname) as auncle,
-concat('children: ', GROUP_CONCAT(DISTINCT IF (child.Cemetery LIKE '%Sinai',concat(child.AAFirstName,' ',child.AASurname),'') SEPARATOR ', ')) as child,
-concat('grandchildren: ', GROUP_CONCAT(DISTINCT IF (grandchild.Cemetery LIKE '%Sinai',concat(grandchild.AAFirstName,' ',grandchild.AASurname),'') SEPARATOR ', ')) as grandchild
+concat('auncles:', auntuncle.fullname) as auncle,
+concat('children: ', GROUP_CONCAT(DISTINCT IF (child.Cemetery LIKE '%Sinai',child.fullname,'') SEPARATOR ', ')) as child,
+concat('grandchildren: ', GROUP_CONCAT(DISTINCT IF (grandchild.Cemetery LIKE '%Sinai',grandchild.fullname,'') SEPARATOR ', ')) as grandchild
 from
 (
     (
