@@ -4,28 +4,28 @@ select
 -- p.PersonId,
 -- p.spouseid, p.motherid, p.fatherid,
 UPPER(p.fullname) as person,
-if (spouse.Cemetery LIKE '%Sinai%', concat('spouse: ', spouse.fullname), '') as spouse,
-if (mother.Cemetery LIKE '%Sinai%', concat('mother: ', mother.fullname), '') as mother,
-if (father.Cemetery LIKE '%Sinai%', concat('father: ', father.fullname), '') as father,
+if (spouse.sinai, concat('spouse: ', spouse.fullname), '') as spouse,
+if (mother.sinai, concat('mother: ', mother.fullname), '') as mother,
+if (father.sinai, concat('father: ', father.fullname), '') as father,
 concat('grandparents: ',
     -- maternal bubbe and zayde
-    if (mbubbe.Cemetery LIKE '%Sinai%', mbubbe.fullname, ''),
-    if (mzayde.Cemetery LIKE '%Sinai%', mzayde.fullname, ''),
+    if (mbubbe.sinai, mbubbe.fullname, ''),
+    if (mzayde.sinai, mzayde.fullname, ''),
     -- if maternal bubbe's spouse is different from maternal zayde:
     if (mbubbespouse.PersonId <> mzayde.PersonId
-        AND mbubbespouse.Cemetery LIKE '%Sinai%', mbubbespouse.fullname, ''),
+        AND mbubbespouse.sinai, mbubbespouse.fullname, ''),
     -- if maternal zayde's spouse is different from maternal bubbe:
     if (mzaydespouse.PersonId <> mbubbe.PersonId
-        AND mzaydespouse.Cemetery LIKE '%Sinai%', mzaydespouse.fullname, ''),
+        AND mzaydespouse.sinai, mzaydespouse.fullname, ''),
     -- paternal bubbe and zayde
-    if (pbubbe.Cemetery LIKE '%Sinai%', pbubbe.fullname, ''),
-    if (pzayde.Cemetery LIKE '%Sinai%', pzayde.fullname, ''),
+    if (pbubbe.sinai, pbubbe.fullname, ''),
+    if (pzayde.sinai, pzayde.fullname, ''),
     -- if paternal bubbe's spouse is different from paternal zayde:
     if (pbubbespouse.PersonId <> pzayde.PersonId
-        AND pbubbespouse.Cemetery LIKE '%Sinai%', pbubbespouse.fullname, ''),
+        AND pbubbespouse.sinai, pbubbespouse.fullname, ''),
     -- if paternal zayde's spouse is different from paternal bubbe:
     if (pzaydespouse.PersonId <> pbubbe.PersonId
-        AND pzaydespouse.Cemetery LIKE '%Sinai%', pzaydespouse.fullname, '')
+        AND pzaydespouse.sinai, pzaydespouse.fullname, '')
     ) as grandparents,
 concat('auncles:', auntuncle.fullname) as auncle,
 concat('children: ', GROUP_CONCAT(DISTINCT IF (child.Cemetery LIKE '%Sinai',child.fullname,'') SEPARATOR ', ')) as child,
@@ -97,7 +97,7 @@ AND (
 -- AND (mother2sibling.Relationship_1 IN ('sister of', 'brother of') OR mother2sibling.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
-AND (p.AASurname = "Gleckman" OR p.AASurname = "Tarr")
+AND (p.AASurname = "Gleckman")
 
 GROUP BY person, spouse, mother, father, grandparents
 LIMIT 200;
