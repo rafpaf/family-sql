@@ -3,11 +3,11 @@ SET SQL_BIG_SELECTS=1;
 select
 -- p.PersonId,
 -- p.spouseid, p.motherid, p.fatherid,
-UPPER(p.fullname) AS person,
-IF (spouse.sinai, concat('spouse: ', spouse.fullname), '') AS spouse,
-IF (mother.sinai, concat('mother: ', mother.fullname), '') AS mother,
-IF (father.sinai, concat('father: ', father.fullname), '') AS father,
-concat('grandparents: ',
+UPPER(p.fullname) AS person
+,IF (spouse.sinai, concat('spouse: ', spouse.fullname), '') AS spouse
+,IF (mother.sinai, concat('mother: ', mother.fullname), '') AS mother
+,IF (father.sinai, concat('father: ', father.fullname), '') AS father
+,concat('grandparents: ',
 
     -- Maternal bubbe and zayde
     IF (mbubbe.sinai, mbubbe.fullname, ''), ';',
@@ -33,10 +33,23 @@ concat('grandparents: ',
     IF (pzaydespouse.PersonId <> pbubbe.PersonId
         AND pzaydespouse.sinai, pzaydespouse.fullname, '')
 
-    ) AS grandparents,
-concat('auncles:', auncle.fullname, ';', aunclespouse.fullname) AS auncle,
-concat('children: ', GROUP_CONCAT(DISTINCT IF (child.sinai,child.fullname,'') SEPARATOR ', ')) AS child,
-concat('grandchildren: ', GROUP_CONCAT(DISTINCT IF (grandchild.sinai,grandchild.fullname,'') SEPARATOR ', ')) AS grandchild
+    ) AS grandparents
+,concat('auncles:'
+    GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', '),
+    GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', '),
+    ,mat_auncle.fullname, ';', mat_aunclespouse.fullname, ';'
+    ,pat_auncle.fullname, ';', pat_aunclespouse.fullname
+    ) AS auncle
+,concat('children: '
+    , GROUP_CONCAT(DISTINCT IF (child.sinai,child.fullname,'') SEPARATOR ', ')
+    ) AS child
+,concat('grandchildren: '
+    ,GROUP_CONCAT(DISTINCT IF (grandchild.sinai,grandchild.fullname,'') SEPARATOR ', ')
+    ) AS grandchild
+,concat('nephews/nieces:'
+    ,GROUP_CONCAT(DISTINCT IF (mat_nibling.sinai,mat_nibling.fullname,'') SEPARATOR ', ')
+    ,GROUP_CONCAT(DISTINCT IF (pat_nibling.sinai,pat_nibling.fullname,'') SEPARATOR ', ')
+    ) AS niblings
 from
 (
     (
@@ -59,16 +72,34 @@ from
                     ON (mzayde.PersonId = mother.fatherid)
                     LEFT JOIN JewishMeNames AS mzaydespouse
                     ON (mzaydespouse.PersonId = mzayde.spouseid)
+
+                    -- uncles, aunts, and niblings on mother's side
                     LEFT JOIN Relationships AS mother2sibling
                     ON (mother.PersonId = mother2sibling.PersonId
                         AND mother2sibling.Relationship_1 IN ("sister of", "brother of"))
-                    LEFT JOIN JewishMeNames AS auncle
-                    ON (mother2sibling.RelRecId2 = auncle.PersonId)
-                    LEFT JOIN JewishMeNames AS aunclespouse
-                    ON (aunclespouse.PersonId = auncle.spouseid)
+                    LEFT JOIN JewishMeNames AS mat_auncle
+                    ON (mother2sibling.RelRecId2 = mat_auncle.PersonId)
+                    LEFT JOIN JewishMeNames AS mat_aunclespouse
+                    ON (mat_aunclespouse.PersonId = mat_auncle.spouseid)
+                    LEFT JOIN JewishMeNames AS mat_nibling
+                    ON (mat_auncle.PersonId IN (mat_nibling.motherid, mat_nibling.fatherid))
+
                 )
                 LEFT JOIN JewishMeNames AS father
                 ON (p.fatherid = father.PersonId)
+
+                -- uncles, aunts, and niblings on father's side
+                LEFT JOIN Relationships AS father2sibling
+                ON (father.PersonId = father2sibling.PersonId
+                    AND father2sibling.Relationship_1 IN ("sister of", "brother of"))
+                LEFT JOIN JewishMeNames AS pat_auncle
+                ON (father2sibling.RelRecId2 = pat_auncle.PersonId)
+                LEFT JOIN JewishMeNames AS pat_aunclespouse
+                ON (pat_aunclespouse.PersonId = pat_auncle.spouseid)
+                LEFT JOIN JewishMeNames AS pat_nibling
+                ON (pat_auncle.PersonId IN (pat_nibling.motherid, pat_nibling.fatherid))
+
+                -- paternal bubbe and zayde
                 LEFT JOIN JewishMeNames AS pbubbe
                 ON (pbubbe.PersonId = father.motherid)
                 LEFT JOIN JewishMeNames AS pbubbespouse
@@ -106,7 +137,10 @@ AND (
 -- AND (mother2sibling.Relationship_1 IN ('sister of', 'brother of') OR mother2sibling.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
-AND (p.AASurname = "Gleckman")
+-- AND (p.AASurname = "Gleckman")
+-- AND (p.AAFirstName LIKE 'Harris%' AND p.AASurname = "Gleckman")
+-- AND (p.AAFirstName LIKE '%Jeffrey%' AND p.AASurname = "Tarr")
+AND (p.PersonID = 2163)
 
 GROUP BY person, spouse, mother, father, grandparents
 LIMIT 200;
