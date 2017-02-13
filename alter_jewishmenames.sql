@@ -1,0 +1,1 @@
+ALTER TABLE JewishMeNames ADD COLUMN (sinai BOOLEAN, fullname VARCHAR(255));
