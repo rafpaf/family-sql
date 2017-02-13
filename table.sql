@@ -56,12 +56,12 @@ from
                 on (paternalgrandpa.PersonId = father.fatherid)
             )
             JOIN
-            Relationships as r
-            on r.PersonId = p.PersonId
+            Relationships as p2child
+            on p2child.PersonId = p2child.PersonId
         )
         JOIN
         JewishMeNames as child
-        on (r.RelRecId2 = child.PersonId)
+        on (p2child.RelRecId2 = child.PersonId)
     )
     JOIN
     Relationships as child2grandchild
@@ -73,7 +73,7 @@ on (child2grandchild.RelRecId2 = grandchild.PersonId OR child2grandchild.RelRecI
 
 where true
 -- AND r.rel = 'family'
-AND (r.Relationship_1 IN ('father of', 'mother of') OR r.Relationship_1 IS NULL)
+AND (p2child.Relationship_1 IN ('father of', 'mother of') OR p2child.Relationship_1 IS NULL)
 AND (child2grandchild.Relationship_1 IN ('father of', 'mother of') OR child2grandchild.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
