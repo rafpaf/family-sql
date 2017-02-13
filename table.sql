@@ -64,17 +64,17 @@ from
         on (r.RelRecId2 = child.PersonId)
     )
     JOIN
-    Relationships as r2
-    on (r2.PersonId = child.PersonId OR r2.PersonId IS NULL)
+    Relationships as child2grandchild
+    on (child2grandchild.PersonId = child.PersonId OR child2grandchild.PersonId IS NULL)
 )
 JOIN
 JewishMeNames as grandchild
-on (r2.RelRecId2 = grandchild.PersonId OR r2.RelRecId2 IS NULL)
+on (child2grandchild.RelRecId2 = grandchild.PersonId OR child2grandchild.RelRecId2 IS NULL)
 
 where true
 -- AND r.rel = 'family'
 AND (r.Relationship_1 IN ('father of', 'mother of') OR r.Relationship_1 IS NULL)
-AND (r2.Relationship_1 IN ('father of', 'mother of') OR r2.Relationship_1 IS NULL)
+AND (child2grandchild.Relationship_1 IN ('father of', 'mother of') OR child2grandchild.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
 -- AND p.AASurname = "Tarr" OR
