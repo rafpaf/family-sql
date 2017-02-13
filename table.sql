@@ -1,14 +1,29 @@
+SET SQL_BIG_SELECTS=1;
+
 select
 -- p.PersonId,
 -- p.spouseid, p.motherid, p.fatherid,
 ">",
-concat(substring_index(p.AAFirstName, " ", 1), ' ', p.AASurname) as person,
-concat('spouse: ', substring_index(spouses.AAFirstName, " ", 1), ' ', spouses.AASurname) as spouse,
-concat('mother:' , substring_index(mothers.AAFirstName, " ", 1), ' ', mothers.AASurname) as mother,
-concat('father: ', substring_index(fathers.AAFirstName, " ", 1), ' ', fathers.AASurname) as father,
--- concat('child: ', substring_index(children.AAFirstName, " ", 1), ' ', children.AASurname) as 'child',
-concat('children: ', GROUP_CONCAT(DISTINCT substring_index(children.AAFirstName, " ", 1) SEPARATOR ', ')) as children,
-concat('grandchildren: ', GROUP_CONCAT(substring_index(grandchildren.AAFirstName, " ", 1) SEPARATOR ', ')) as grandchildren
+concat(p.AAFirstName, ' ', p.AASurname) as person,
+if (spouse.Cemetery LIKE '%Sinai%', concat('spouse: ', spouse.AAFirstName, ' ', spouse.AASurname), '') as spouse,
+if (mother.Cemetery LIKE '%Sinai%', concat('mother: ', mother.AAFirstName, ' ', mother.AASurname), '') as mother,
+if (father.Cemetery LIKE '%Sinai%', concat('father: ', father.AAFirstName, ' ', father.AASurname), '') as father,
+if (maternalgrandma.Cemetery LIKE '%Sinai%', concat('maternal grandma: ',
+    maternalgrandma.AAFirstName, ' ', maternalgrandma.AASurname), '') as
+    maternalgrandma,
+if (maternalgrandpa.Cemetery LIKE '%Sinai%', concat('maternal grandpa: ',
+    maternalgrandpa.AAFirstName, ' ', maternalgrandpa.AASurname), '') as
+    maternalgrandpa,
+if (paternalgrandma.Cemetery LIKE '%Sinai%', concat('paternal grandma: ',
+    paternalgrandma.AAFirstName, ' ', paternalgrandma.AASurname), '') as
+    paternalgrandma,
+if (paternalgrandpa.Cemetery LIKE '%Sinai%', concat('paternal grandpa: ',
+    paternalgrandpa.AAFirstName, ' ', paternalgrandpa.AASurname), '') as
+    paternalgrandpa,
+
+concat('children: ', GROUP_CONCAT(DISTINCT IF (child.Cemetery LIKE '%Sinai',concat(child.AAFirstName,' ',child.AASurname),'') SEPARATOR ', ')) as child,
+concat('grandchildren: ', GROUP_CONCAT(DISTINCT IF (grandchild.Cemetery LIKE '%Sinai',concat(grandchild.AAFirstName,' ',grandchild.AASurname),'') SEPARATOR ', ')) as grandchild
+-- concat('grandparents: ', GROUP_CONCAT(DISTINCT IF (grandparent.Cemetery LIKE '%Sinai',concat(grandparent.AAFirstName,' ',grandparent.AASurname),'') SEPARATOR ', ')) as grandparent
 from
 (
     (
@@ -17,32 +32,44 @@ from
                 (
                     (
                         JewishMeNames as p
-                        JOIN JewishMeNames as spouses
-                        on p.spouseid = spouses.PersonId
+                        JOIN JewishMeNames as spouse
+                        on p.spouseid = spouse.PersonId
                     )
                     JOIN
-                    JewishMeNames as mothers
-                    on p.motherid = mothers.PersonId
+                    JewishMeNames as mother
+                    on (p.motherid = mother.PersonId)
+                    JOIN
+                    JewishMeNames as maternalgrandma
+                    on (maternalgrandma.PersonId = mother.motherid)
+                    JOIN
+                    JewishMeNames as maternalgrandpa
+                    on (maternalgrandpa.PersonId = mother.fatherid)
                 )
                 JOIN
-                JewishMeNames as fathers
-                on p.fatherid = fathers.PersonId
+                JewishMeNames as father
+                on (p.fatherid = father.PersonId)
+                JOIN
+                JewishMeNames as paternalgrandma
+                on (paternalgrandma.PersonId = father.motherid)
+                JOIN
+                JewishMeNames as paternalgrandpa
+                on (paternalgrandpa.PersonId = father.fatherid)
             )
             JOIN
             Relationships as r
             on r.PersonId = p.PersonId
         )
         JOIN
-        JewishMeNames as children
-        on r.RelRecId2 = children.PersonId
+        JewishMeNames as child
+        on (r.RelRecId2 = child.PersonId)
     )
     JOIN
     Relationships as r2
-    on r2.PersonId = children.PersonId
+    on (r2.PersonId = child.PersonId OR r2.PersonId IS NULL)
 )
 JOIN
-JewishMeNames as grandchildren
-on r2.RelRecId2 = grandchildren.PersonId
+JewishMeNames as grandchild
+on (r2.RelRecId2 = grandchild.PersonId OR r2.RelRecId2 IS NULL)
 
 where true
 -- AND r.rel = 'family'
@@ -50,7 +77,10 @@ AND (r.Relationship_1 IN ('father of', 'mother of') OR r.Relationship_1 IS NULL)
 AND (r2.Relationship_1 IN ('father of', 'mother of') OR r2.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
-AND p.AASurname = "Gleckman"
+-- AND p.AASurname = "Tarr" OR
+AND p.AASurname = "Tarr"
 
-group by person, spouse, mother, father
+group by person, spouse, mother, father,
+maternalgrandma, maternalgrandpa,
+paternalgrandma, paternalgrandpa
 limit 200;
