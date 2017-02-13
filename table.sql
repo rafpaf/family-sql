@@ -82,7 +82,7 @@ from
     on (child2grandchild.PersonId = child.PersonId OR child2grandchild.PersonId IS NULL)
 )
 LEFT JOIN
-sinai as grandchild
+JewishMeNames as grandchild
 on (child2grandchild.RelRecId2 = grandchild.PersonId OR child2grandchild.RelRecId2 IS NULL)
 -- JOIN
 -- JewishMeNames as sibling
@@ -97,7 +97,7 @@ AND (
 -- AND (mother2sibling.Relationship_1 IN ('sister of', 'brother of') OR mother2sibling.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
-AND p.AASurname = "Tarr"
+AND (p.AASurname = "Gleckman" OR p.AASurname = "Tarr")
 
 GROUP BY person, spouse, mother, father, grandparents
 LIMIT 200;
