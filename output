@@ -1,0 +1,5 @@
+>	person	spouse	mother	father	children	grandchildren
+>	Celia Gleckman	spouse: Philip Gleckman	NULL	NULL	children: Maurice	grandchildren: Harris
+>	Frances Gleckman	spouse: Maurice Gleckman	mother:Sarah Tarr	father: Isadore Tarr	children: Harris	grandchildren: Miriam, Raphael
+>	Maurice Gleckman	spouse: Frances Gleckman	mother:Celia Gleckman	father: Philip Gleckman	children: Harris	grandchildren: Miriam, Raphael
+>	Philip Gleckman	spouse: Celia Gleckman	NULL	NULL	children: Maurice	grandchildren: Harris
