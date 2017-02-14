@@ -36,7 +36,8 @@ UPPER(p.fullname) AS person
     ) AS grandparents
 ,concat('auncles:'
     GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', '),
-    GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', '),
+    GROUP_CONCAT(DISTINCT IF (pat_auncle.sinai,pat_auncle.fullname,'') SEPARATOR ', '),
+    GROUP_CONCAT(DISTINCT IF (pat_aunclespouse.sinai,pat_aunclespouse.fullname,'') SEPARATOR ', '),
     ,mat_auncle.fullname, ';', mat_aunclespouse.fullname, ';'
     ,pat_auncle.fullname, ';', pat_aunclespouse.fullname
     ) AS auncle
