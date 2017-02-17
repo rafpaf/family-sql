@@ -34,13 +34,12 @@ UPPER(p.fullname) AS person
         AND pzaydespouse.sinai, pzaydespouse.fullname, '')
 
     ) AS grandparents
-,concat('auncles:'
-    GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', '),
-    GROUP_CONCAT(DISTINCT IF (pat_auncle.sinai,pat_auncle.fullname,'') SEPARATOR ', '),
-    GROUP_CONCAT(DISTINCT IF (pat_aunclespouse.sinai,pat_aunclespouse.fullname,'') SEPARATOR ', '),
-    ,mat_auncle.fullname, ';', mat_aunclespouse.fullname, ';'
-    ,pat_auncle.fullname, ';', pat_aunclespouse.fullname
-    ) AS auncle
+-- ,concat('auncles:'
+--     ,GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', ')
+--     ,GROUP_CONCAT(DISTINCT IF (pat_auncle.sinai,pat_auncle.fullname,'') SEPARATOR ', ')
+--     ,GROUP_CONCAT(DISTINCT IF (pat_aunclespouse.sinai,pat_aunclespouse.fullname,'') SEPARATOR ', ')
+--     ,GROUP_CONCAT(DISTINCT IF (mat_aunclespouse.sinai,mat_aunclespouse.fullname,'') SEPARATOR ', ')
+--     ) AS auncle
 ,concat('children: '
     , GROUP_CONCAT(DISTINCT IF (child.sinai,child.fullname,'') SEPARATOR ', ')
     ) AS child
@@ -138,10 +137,11 @@ AND (
 -- AND (mother2sibling.Relationship_1 IN ('sister of', 'brother of') OR mother2sibling.Relationship_1 IS NULL)
 -- AND r2.rel = 'family'
 
--- AND (p.AASurname = "Gleckman")
+AND (p.AASurname = "Tarr")
 -- AND (p.AAFirstName LIKE 'Harris%' AND p.AASurname = "Gleckman")
 -- AND (p.AAFirstName LIKE '%Jeffrey%' AND p.AASurname = "Tarr")
-AND (p.PersonID = 2163)
+-- AND (p.PersonID = 2163)
 
 GROUP BY person, spouse, mother, father, grandparents
 LIMIT 200;
+
