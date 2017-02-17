@@ -50,7 +50,8 @@ LEFT JOIN JewishMeNames AS pat_nibling
 ON (pat_auncle.PersonId IN (pat_nibling.motherid, pat_nibling.fatherid))
 
 WHERE TRUE
-AND (p.AASurname = "Tarr")
+AND (p.AASurname = "Gleckman")
+OR (p.AASurname = "Tarr")
 
 GROUP BY person, spouse, mother, father
-LIMIT 200;
+;

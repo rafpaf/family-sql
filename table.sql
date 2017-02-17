@@ -34,12 +34,6 @@ UPPER(p.fullname) AS person
         AND pzaydespouse.sinai, pzaydespouse.fullname, '')
 
     ) AS grandparents
--- ,concat('auncles:'
---     ,GROUP_CONCAT(DISTINCT IF (mat_auncle.sinai,mat_auncle.fullname,'') SEPARATOR ', ')
---     ,GROUP_CONCAT(DISTINCT IF (pat_auncle.sinai,pat_auncle.fullname,'') SEPARATOR ', ')
---     ,GROUP_CONCAT(DISTINCT IF (pat_aunclespouse.sinai,pat_aunclespouse.fullname,'') SEPARATOR ', ')
---     ,GROUP_CONCAT(DISTINCT IF (mat_aunclespouse.sinai,mat_aunclespouse.fullname,'') SEPARATOR ', ')
---     ) AS auncle
 ,concat('children: '
     , GROUP_CONCAT(DISTINCT IF (child.sinai,child.fullname,'') SEPARATOR ', ')
     ) AS child
@@ -72,17 +66,6 @@ from
                     ON (mzayde.PersonId = mother.fatherid)
                     LEFT JOIN JewishMeNames AS mzaydespouse
                     ON (mzaydespouse.PersonId = mzayde.spouseid)
-
-                    -- uncles, aunts, and niblings on mother's side
-                    LEFT JOIN Relationships AS mother2sibling
-                    ON (mother.PersonId = mother2sibling.PersonId
-                        AND mother2sibling.Relationship_1 IN ("sister of", "brother of"))
-                    LEFT JOIN JewishMeNames AS mat_auncle
-                    ON (mother2sibling.RelRecId2 = mat_auncle.PersonId)
-                    LEFT JOIN JewishMeNames AS mat_aunclespouse
-                    ON (mat_aunclespouse.PersonId = mat_auncle.spouseid)
-                    LEFT JOIN JewishMeNames AS mat_nibling
-                    ON (mat_auncle.PersonId IN (mat_nibling.motherid, mat_nibling.fatherid))
 
                 )
                 LEFT JOIN JewishMeNames AS father
