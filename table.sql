@@ -7,43 +7,12 @@ UPPER(p.fullname) AS person
 ,IF (spouse.sinai, concat('spouse: ', spouse.fullname), '') AS spouse
 ,IF (mother.sinai, concat('mother: ', mother.fullname), '') AS mother
 ,IF (father.sinai, concat('father: ', father.fullname), '') AS father
-,concat('grandparents: ',
-
-    -- Maternal bubbe and zayde
-    IF (mbubbe.sinai, mbubbe.fullname, ''), ';',
-    IF (mzayde.sinai, mzayde.fullname, ''), ';',
-
-    -- If maternal bubbe's spouse is different from maternal zayde:
-    IF (mbubbespouse.PersonId <> mzayde.PersonId
-        AND mbubbespouse.sinai, mbubbespouse.fullname, ''), ';',
-
-    -- If maternal zayde's spouse is different from maternal bubbe:
-    IF (mzaydespouse.PersonId <> mbubbe.PersonId
-        AND mzaydespouse.sinai, mzaydespouse.fullname, ''), ';',
-
-    -- Paternal bubbe and zayde
-    IF (pbubbe.sinai, pbubbe.fullname, ''), ';',
-    IF (pzayde.sinai, pzayde.fullname, ''), ';',
-
-    -- If paternal bubbe's spouse is different from paternal zayde:
-    IF (pbubbespouse.PersonId <> pzayde.PersonId
-        AND pbubbespouse.sinai, pbubbespouse.fullname, ''), ';',
-
-    -- if paternal zayde's spouse is different from paternal bubbe:
-    IF (pzaydespouse.PersonId <> pbubbe.PersonId
-        AND pzaydespouse.sinai, pzaydespouse.fullname, '')
-
-    ) AS grandparents
 ,concat('children: '
     , GROUP_CONCAT(DISTINCT IF (child.sinai,child.fullname,'') SEPARATOR ', ')
     ) AS child
 ,concat('grandchildren: '
     ,GROUP_CONCAT(DISTINCT IF (grandchild.sinai,grandchild.fullname,'') SEPARATOR ', ')
     ) AS grandchild
-,concat('nephews/nieces:'
-    ,GROUP_CONCAT(DISTINCT IF (mat_nibling.sinai,mat_nibling.fullname,'') SEPARATOR ', ')
-    ,GROUP_CONCAT(DISTINCT IF (pat_nibling.sinai,pat_nibling.fullname,'') SEPARATOR ', ')
-    ) AS niblings
 from
 (
     (
@@ -127,4 +96,3 @@ AND (p.AASurname = "Tarr")
 
 GROUP BY person, spouse, mother, father, grandparents
 LIMIT 200;
-

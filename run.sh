@@ -1,1 +1,1 @@
-cat table.sql | sudo mysql -D mj
+time cat auntuncle.sql | cat table.sql | sudo mysql -D mj
