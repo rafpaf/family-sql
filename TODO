@@ -1,0 +1,10 @@
+Run separate SQL files for each family type:
+- parents and grandparents
+- aunts/uncles
+- children and grandchildren
+- spouse's family
+
+Compile these into a large file.
+
+Run on sinai people (there are 3200 of them). Then, create a table linking each
+family member to their sinai people.
