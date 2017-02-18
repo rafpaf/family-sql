@@ -2,6 +2,8 @@ set sql_big_selects=1;
 
 -- I use the oldfashioned abbreviation 'et ux' to mean 'and their spouses'
 
+select 'plot', 'first_name', 'last_name', 'spouses', 'parents_and_their_spouses', 'aunts_and_uncles_and_their_spouses','grandchildren_and_their_spouses','first_cousins_and_their_spouses'
+union
 select
 concat(Cemetery, ' ', Section, ' ', Subsection, ' ', Plot2) as plot
 ,AAFirstName as first_name
@@ -54,7 +56,7 @@ left join is_firstcousin_of firstcousin
 on p.id = firstcousin.person_id
 
 -- join is_firstcousin_of_spouse_of spouse_of_firstcousin
-where True
+where p.sinai
 group by first_name, last_name
 LIMIT 99999999
-into outfile '/tmp/final.csv' fields terminated by ',' enclosed by '"' lines terminated by '\n';
+into outfile '/tmp/final.csv' fields terminated by '\t' enclosed by '' lines terminated by '\n';
