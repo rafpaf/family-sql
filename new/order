@@ -1,0 +1,17 @@
+because some queries require that other queries have already run, you need to run them in this order:
+
+is_child_of
+is_sibling_of
+
+has_been_married_to
+
+is_grandchild_of
+is_grandparent_of
+
+is_auntuncle_of
+
+is_niecenephew_of
+
+is_firstcousin_of
+
+is_firstcousin_by_marriage_of
