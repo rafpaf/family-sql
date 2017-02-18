@@ -1,8 +1,11 @@
 set sql_big_selects=1;
 
+drop table is_niecenephew_of;
+
 create table if not exists is_niecenephew_of like is_child_of;
 
-insert into is_niecenephew_of (person_id, person_fullname, relation_id, relation_fullname)
+insert into is_niecenephew_of (person_id, person_fullname, relation_id,
+    relation_fullname)
 select
 
 distinct
