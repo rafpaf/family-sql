@@ -12,6 +12,5 @@ from JewishMeNames as p
 join JewishMeNames as p2
 where 1
 AND p.spouseid = p2.id
-AND p.AASurname = "Gleckman"
 limit 999999
 \G;
