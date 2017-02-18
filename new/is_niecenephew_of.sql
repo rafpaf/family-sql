@@ -23,6 +23,7 @@ where
     p.id = rc.person_id
 AND rc.relation_id = rs.person_id
 AND rs.relation_id = p2.id
+AND p.id <> p2.id
 -- AND p.AASurname = "Gleckman"
 LIMIT 0, 999999
 

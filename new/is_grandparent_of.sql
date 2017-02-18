@@ -1,18 +1,26 @@
-
 set sql_big_selects=1;
 
-insert into (person_id, person_fullname, relation_type, relation_id, relation_fullname)
+drop table is_grandparent_of;
+
+create table is_grandparent_of like is_child_of;
+
+insert is_grandparent_of
 select
-p.PersonId as person_id,
+distinct
+p.id as person_id,
 p.fullname as person_fullname,
-grandchild.PersonId as relation_id,
-grandchild.fullname as relation_fullname
+p2.id as relation_id,
+p2.fullname as relation_fullname
 from JewishMeNames as p
-join person2ancestor as p2a1
-on p.PersonId = p2a1.ancestor_id
-join person2ancestor as p2a2
-on p2a1.person_id = p2a2.ancestor_id
-join JewishMeNames as grandchild
-on p2a2.person_id = grandchild.PersonId
-where grandchild.PersonId <> 0
+join is_child_of as rc
+join is_child_of as rc2
+join JewishMeNames as p2
+where p.id <> 0 AND p2.id <> 0
+AND p.id = rc.relation_id
+AND rc.person_id = rc2.relation_id
+AND rc2.person_id = p2.id
+LIMIT 999999
 \G;
+
+-- anyone who stands within two degrees of separation.
+-- problems with this: sometimes someone is listed as a brother but there is no other information.
