@@ -55,5 +55,6 @@ on p.id = firstcousin.person_id
 
 -- join is_firstcousin_of_spouse_of spouse_of_firstcousin
 where True
--- group by first_name, last_name
+group by first_name, last_name
 LIMIT 99999999
+into outfile '/tmp/final.csv' fields terminated by ',' enclosed by '"' lines terminated by '\n';
