@@ -32,5 +32,5 @@ AND p2.id = i.relation_id
 ) as list
 order by 1, 2, 3, 4
 LIMIT 99999999
-into outfile '/Users/raf/code/smjca/final.csv' fields terminated by '\t' enclosed by '' lines terminated by '\n';
+into outfile '/Users/raf/code/smjca/final.csv' fields terminated by ';' enclosed by '|' lines terminated by '\n';
 ;
