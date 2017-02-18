@@ -19,5 +19,6 @@ where
 p.id = coz.person_id
 AND coz.relation_id = m.person_id
 AND m.relation_id = p2.id
+AND m.relation_id <> 0
 limit 999999
 \G;
