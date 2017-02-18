@@ -2,11 +2,12 @@
 set sql_big_selects=1;
 
 -- if x is_child_of y and z is_child_of y then x is_sibling_of z
+-- this includes half siblings
 
--- insert into relations (person_id, person_fullname, relation_type, relation_id, relation_fullname)
+insert into relations (person_id, person_fullname, relation_type, relation_id, relation_fullname)
 select
 
--- ignore these
+distinct
 p.PersonId as person_id,
 p.fullname as person_fullname,
 'is_sibling_of' as relation_type,
@@ -15,14 +16,15 @@ sib.fullname as relation_fullname
 
 from JewishMeNames as p
 join relations as r
-on p.PersonId = r.person_id
 join relations as r2
-on (r.relation_id = r2.relation_id
-    and r.relation_type = 'is_child_of'
-    and r2.relation_type = 'is_child_of')
 join JewishMeNames as sib
-on sib.PersonId = r2.relation_id
-where r.relation_id <> 0
-and p.AASurname in ("Gleckman", "Tarr")
-and p.PersonId <> sib.PersonId
+
+where r.relation_type = 'is_child_of'
+AND r2.relation_type = 'is_child_of'
+AND p.PersonId = r.person_id
+AND r.relation_id = r2.relation_id
+AND r2.person_id = sib.PersonId
+AND p.PersonId <> sib.PersonId
+LIMIT 0, 999999
+
 \G;
