@@ -4,7 +4,8 @@ drop table if exists is_firstcousin_by_marriage_of;
 
 create table is_firstcousin_by_marriage_of like is_firstcousin_of;
 
-insert into is_firstcousin_by_marriage_of (person_id, person_fullname, relation_id, relation_fullname)
+insert into is_firstcousin_by_marriage_of (person_id, person_fullname,
+    relation_id, relation_fullname)
 select
 distinct
 p.id as person_id,
