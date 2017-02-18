@@ -1,9 +1,12 @@
 set sql_big_selects=1;
 
--- create table is_firstcousin_by_marriage_of like is_firstcousin_of;
+drop table if exists is_firstcousin_by_marriage_of;
 
--- insert into is_firstcousin_by_marriage_of (person_id, person_fullname, relation_id, relation_fullname)
+create table is_firstcousin_by_marriage_of like is_firstcousin_of;
+
+insert into is_firstcousin_by_marriage_of (person_id, person_fullname, relation_id, relation_fullname)
 select
+distinct
 p.id as person_id,
 p.fullname as person_fullname,
 p2.id as relation_id,
