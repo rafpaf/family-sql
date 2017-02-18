@@ -1,3 +1,5 @@
+select * from
+(
 select 'Cemetery', 'Section', 'Subsection', 'last name', 'short first name', 'full first name', 'relationship', 'converse relationship', 'gendered relationship', 'gendered converse relationship', 'relation last name', 'relation first name', 'sentence', 'person id', 'relation id'
 
 union
@@ -27,4 +29,8 @@ join JewishMeNames p
 join JewishMeNames p2
 where p.id = i.person_id and p.sinai
 AND p2.id = i.relation_id
+) as list
+order by 1, 2, 3, 4
+LIMIT 99999999
+into outfile '/Users/raf/code/smjca/final.csv' fields terminated by '\t' enclosed by '' lines terminated by '\n';
 ;
