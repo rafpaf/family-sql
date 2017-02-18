@@ -2,7 +2,7 @@ set sql_big_selects=1;
 
 -- create table has_been_married_to like is_child_of;
 
--- insert into has_been_married_to ( person_id, person_fullname, relation_id, relation_fullname)
+insert into has_been_married_to ( person_id, person_fullname, relation_id, relation_fullname)
 select
 p.id as person_id,
 p.fullname as person_fullname,
