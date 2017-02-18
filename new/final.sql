@@ -44,5 +44,6 @@ join is_auntuncle_of nibling
 join is_firstcousin_of firstcousin
 join is_firstcousin_of_spouse_of spouse_of_firstcousin
 where p.AASurname = "Gleckman"
+AND p.AAFirstName like "Frances%"
 group by first_name, last_name
 -- LIMIT 99999999
