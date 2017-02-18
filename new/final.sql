@@ -40,17 +40,17 @@ on p.id = parent.person_id
 join has_been_married_to spouse
 on p.id = spouse.person_id
 
-join is_grandparent_of grandchild
+left join is_grandparent_of grandchild
 on p.id = grandchild.person_id
 
 -- -- join is_grandparent_of_spouse_of spouse_of_grandchild
 
-join is_auntuncle_of nibling
+left join is_auntuncle_of nibling
 on p.id = nibling.person_id
 
 -- -- join is_auntuncle_of_spouse_of spouse_of_nibling
 
-join is_firstcousin_of firstcousin
+left join is_firstcousin_of firstcousin
 on p.id = firstcousin.person_id
 
 -- join is_firstcousin_of_spouse_of spouse_of_firstcousin
