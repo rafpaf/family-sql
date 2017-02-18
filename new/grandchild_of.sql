@@ -2,7 +2,7 @@
 
 set sql_big_selects=1;
 
-drop table if exists relations;
+-- drop table if exists relations;
 
 create table if not exists relations
 (
