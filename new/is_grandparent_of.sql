@@ -1,7 +1,7 @@
 
 set sql_big_selects=1;
 
-insert into relations (person_id, person_fullname, relation_type, relation_id, relation_fullname)
+insert into (person_id, person_fullname, relation_type, relation_id, relation_fullname)
 select
 p.PersonId as person_id,
 p.fullname as person_fullname,
