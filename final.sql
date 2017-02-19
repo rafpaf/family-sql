@@ -180,8 +180,8 @@ select * from
     'p2_id'
     union
     select * from smjca_relation
+    WHERE cemetery LIKE '%Sinai%'
 ) as list
-WHERE 1 = 'cemetery' OR 1 LIKE '%Sinai%'
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/mountsinai.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
@@ -203,8 +203,8 @@ select * from
     'p2_id'
     union
     select * from smjca_relation
+    WHERE cemetery LIKE '%Smith%'
 ) as list
-WHERE 1 = 'cemetery' OR 1 LIKE '%Smith%'
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/smithstreet.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
