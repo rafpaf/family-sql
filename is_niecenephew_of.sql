@@ -16,7 +16,7 @@ distinct
 i.relation_id as person_id,
 i.relation_fullname as person_fullname,
 i.person_id as relation_id,
-i.person_fullname as relation_fullname,
+i.person_fullname as relation_fullname
 
 from is_auntuncle_of i
 
