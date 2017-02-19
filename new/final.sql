@@ -123,6 +123,19 @@ join JewishMeNames p2
 where p.id = i.relation_id and p.sinai
 AND p2.id = i.person_id
 
+union
+
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
+'is a grandniece/grandnephew of',
+p2.lastname, p2.firstname,
+p.id, p2.id
+from is_grandniecenephew_of i
+join JewishMeNames p
+join JewishMeNames p2
+where p.id = i.person_id and p.sinai
+AND p2.id = i.relation_id
+
 ) as list
 
 order by 1, 2, 3, 4
