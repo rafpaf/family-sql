@@ -3,12 +3,12 @@ set sql_big_selects=1;
 -- Backup existing table
 SET @tablename = 'is_parent_of';
 
-SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:',
-    @tablename, '_', CURDATE(), '_', CURTIME(), '`'); PREPARE STMT FROM @query; EXECUTE STMT;
+-- SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:',
+--    @tablename, '_', CURDATE(), '_', CURTIME(), '`'); PREPARE STMT FROM @query; EXECUTE STMT;
 
 create table if not exists is_parent_of like is_child_of;
 
-insert into is_parent_of (person_id, person_fullname, relation_id,
+insert ignore into is_parent_of (person_id, person_fullname, relation_id,
     relation_fullname)
 select
 
