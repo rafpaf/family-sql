@@ -36,6 +36,8 @@ join JewishMeNames as p2
 on p2.id = r.RelRecId2
 where r.Relationship_1 in ("Son","Daughter","son","daughter")
 
+union
+
 -- inferred from Relationships table, rows marked 'mother of', 'father of'
 select
 p.id as person_id,
