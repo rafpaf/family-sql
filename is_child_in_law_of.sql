@@ -1,8 +1,8 @@
 set sql_big_selects=1;
 
--- create table if not exists is_child_in_law_of like is_child_of;
+create table if not exists is_child_in_law_of like is_child_of;
 
--- insert into is_child_in_law_of (person_id, person_fullname, relation_id, relation_fullname)
+insert into is_child_in_law_of (person_id, person_fullname, relation_id, relation_fullname)
 select
 
 distinct
@@ -15,7 +15,6 @@ from has_been_married_to m
 join is_child_of c
 
 where m.relation_id = c.person_id  -- the person is married to the child of relation
-AND c.person_fullname LIKE "%Gleckman"
 LIMIT 0, 999999
 
 \G;
