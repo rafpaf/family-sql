@@ -3,6 +3,8 @@ set sql_big_selects=1;
 -- if x is_child_of y and z is_child_of y then x is_sibling_of z
 -- this includes half siblings
 
+rename table is_auntuncle_of to is_auntuncle_of__old;
+
 create table if not exists is_auntuncle_of like is_child_of;
 
 insert into is_auntuncle_of (person_id, person_fullname, relation_id, relation_fullname)
