@@ -1,10 +1,8 @@
 set sql_big_selects=1;
 
--- drop table is_firstcousin_of;
+create table if not exists is_grandniecenephew_of like is_child_of;
 -- 
--- create table if not exists is_firstcousin_of like is_child_of;
--- 
--- insert into is_firstcousin_of (person_id, person_fullname, relation_id, relation_fullname)
+insert into is_grandniecenephew_of (person_id, person_fullname, relation_id, relation_fullname)
 select
 distinct
 c.person_id as person_id,
