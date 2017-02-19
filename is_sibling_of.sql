@@ -4,27 +4,20 @@ set sql_big_selects=1;
 -- if x is_child_of y and z is_child_of y then x is_sibling_of z
 -- this includes half siblings
 
-insert into relations (person_id, person_fullname, relation_type, relation_id, relation_fullname)
+insert ignore into is_sibling_of (person_id, person_fullname, relation_id, relation_fullname)
 select
 
+-- Infer from data (children of the same person are siblings)
 distinct
-p.PersonId as person_id,
-p.fullname as person_fullname,
-'is_sibling_of' as relation_type,
-sib.PersonId as relation_id,
-sib.fullname as relation_fullname
+c1.person_id,
+c1.person_fullname,
+c2.person_id,
+c2.person_fullname
 
-from JewishMeNames as p
-join relations as r
-join relations as r2
-join JewishMeNames as sib
+from is_child_of c1
+join is_child_of c2
 
-where r.relation_type = 'is_child_of'
-AND r2.relation_type = 'is_child_of'
-AND p.PersonId = r.person_id
-AND r.relation_id = r2.relation_id
-AND r2.person_id = sib.PersonId
-AND p.PersonId <> sib.PersonId
+where c1.relation_id = c2.relation_id
 LIMIT 0, 999999
 
 \G;
