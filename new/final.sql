@@ -49,6 +49,19 @@ union
 
 select p.Cemetery, p.Section, p.Subsection,
 p.lastname, p.firstname,
+'is a parent of',
+p2.lastname, p2.firstname,
+p.id, p2.id
+from is_parent_of i
+join JewishMeNames p
+join JewishMeNames p2
+where p.id = i.person_id and p.sinai
+AND p2.id = i.relation_id
+
+union
+
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
 'is a grandparent of',
 p2.lastname, p2.firstname,
 p.id, p2.id
