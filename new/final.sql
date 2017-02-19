@@ -28,7 +28,7 @@ p.id as p1_id, p2.id as p2_id
 from has_been_married_to i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -43,7 +43,7 @@ p.id as p1_id, p2.id as p2_id
 from is_child_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -57,7 +57,7 @@ p.id as p1_id, p2.id as p2_id
 from is_sibling_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -71,7 +71,7 @@ p.id as p1_id, p2.id as p2_id
 from is_child_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.relation_id and p.sinai
+where p.id = i.relation_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.person_id
 
 union
@@ -85,7 +85,7 @@ p.id as p1_id, p2.id as p2_id
 from is_grandparent_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -99,7 +99,7 @@ p.id as p1_id, p2.id as p2_id
 from is_auntuncle_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -113,7 +113,7 @@ p.id as p1_id, p2.id as p2_id
 from is_niecenephew_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -127,7 +127,7 @@ p.id as p1_id, p2.id as p2_id
 from is_firstcousin_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 union
@@ -141,7 +141,7 @@ p.id as p1_id, p2.id as p2_id
 from is_grandniecenephew_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.relation_id and p.sinai
+where p.id = i.relation_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.person_id
 
 union
@@ -155,7 +155,7 @@ p.id as p1_id, p2.id as p2_id
 from is_grandniecenephew_of i
 join JewishMeNames p
 join JewishMeNames p2
-where p.id = i.person_id and p.sinai
+where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
 
 ) as list
