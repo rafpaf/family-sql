@@ -1,31 +1,35 @@
 set sql_big_selects=1;
 
--- if x is_child_of y and z is_child_of y then x is_sibling_of z
--- this includes half siblings
+-- Backup existing table
+SET @tablename = 'is_auntuncle_of';
 
--- rename table is_auntuncle_of to is_auntuncle_of__20170219_0910;
+SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:', 
+@tablename, '_', CURDATE(), '_', CURTIME(), '`');
 
--- create table if not exists is_auntuncle_of like is_child_of;
--- 
--- insert ignore into is_auntuncle_of (person_id, person_fullname, relation_id, relation_fullname)
--- select
--- 
--- distinct
--- rs.person_id as person_id,
--- rs.person_fullname as person_fullname,
--- rc.person_id as relation_id,
--- rc.person_fullname as relation_fullname
--- -- rs.person_fullname as rs_person,
--- -- rs.relation_fullname as rs_relation,
--- -- rc.person_fullname as rc_person,
--- -- rc.relation_fullname as rc_relation
--- 
--- from join is_sibling_of as rs
--- join is_child_of as rc
--- 
--- where rs.relation_id = rc.relation_id
--- 
--- union
+PREPARE STMT FROM @query;
+EXECUTE STMT;
+
+create table if not exists is_auntuncle_of like is_child_of;
+
+insert ignore into is_auntuncle_of (person_id, person_fullname, relation_id, relation_fullname)
+select
+
+distinct
+rs.person_id as person_id,
+rs.person_fullname as person_fullname,
+rc.person_id as relation_id,
+rc.person_fullname as relation_fullname
+-- rs.person_fullname as rs_person,
+-- rs.relation_fullname as rs_relation,
+-- rc.person_fullname as rc_person,
+-- rc.relation_fullname as rc_relation
+
+from is_sibling_of as rs
+join is_child_of as rc
+
+where rs.relation_id = rc.relation_id
+
+union
 
 -- inferred from Relationships table, rows marked 'mother of', 'father of'
 select
