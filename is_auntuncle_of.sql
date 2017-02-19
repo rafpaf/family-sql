@@ -3,11 +3,8 @@ set sql_big_selects=1;
 -- Backup existing table
 SET @tablename = 'is_auntuncle_of';
 
-SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:', 
-@tablename, '_', CURDATE(), '_', CURTIME(), '`');
-
-PREPARE STMT FROM @query;
-EXECUTE STMT;
+SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:',
+    @tablename, '_', CURDATE(), '_', CURTIME(), '`'); PREPARE STMT FROM @query; EXECUTE STMT;
 
 create table if not exists is_auntuncle_of like is_child_of;
 
