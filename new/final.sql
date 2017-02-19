@@ -1,18 +1,17 @@
 select * from
 (
 select 'Cemetery', 'Section', 'Subsection',
-'last name', 'short first name', 'full first name',
+'last name', 'full first name',
 'relationship',
 'relation last name', 'relation first name',
-'sentence', 'person id', 'relation id'
+'person id', 'relation id'
 
 union
 
 select p.Cemetery, p.Section, p.Subsection,
-p.lastname, SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+p.lastname, p.firstname,
 'is a current or former spouse of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is a current or former spouse of ', p2.fullname),
 p.id, p2.id
 from has_been_married_to i
 join JewishMeNames p
@@ -23,10 +22,9 @@ AND p2.id = i.relation_id
 union
 
 select p.Cemetery, p.Section, p.Subsection,
-p.lastname, SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+p.lastname, p.firstname,
 'is a child of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is a child of ', p2.fullname),
 p.id, p2.id
 from is_child_of i
 join JewishMeNames p
@@ -37,10 +35,9 @@ AND p2.id = i.relation_id
 union
 
 select p.Cemetery, p.Section, p.Subsection,
-p.lastname, SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+p.lastname, p.firstname,
 'is a sibling of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is a sibling of ', p2.fullname),
 p.id, p2.id
 from is_sibling_of i
 join JewishMeNames p
@@ -50,11 +47,10 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery, p.Section, p.Subsection, p.lastname,
-SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
 'is a grandparent of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is a grandparent of ', p2.fullname),
 p.id, p2.id
 from is_grandparent_of i
 join JewishMeNames p
@@ -64,11 +60,10 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery, p.Section, p.Subsection, p.lastname,
-SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
 'is an aunt/uncle of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is an aunt/uncle of ', p2.fullname),
 p.id, p2.id
 from is_auntuncle_of i
 join JewishMeNames p
@@ -78,11 +73,10 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery, p.Section, p.Subsection, p.lastname,
-SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
 'is an niece/nephew of',
 p2.lastname, p2.firstname,
-concat(p.fullname, ' is an niece/nephew of ', p2.fullname),
 p.id, p2.id
 from is_niecenephew_of i
 join JewishMeNames p
@@ -92,11 +86,10 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery, p.Section, p.Subsection, p.lastname,
-SUBSTRING_INDEX(p.firstname, ' ', 1), p.firstname,
+select p.Cemetery, p.Section, p.Subsection,
+p.lastname, p.firstname,
 'has a first cousin married to',
 p2.lastname, p2.firstname,
-concat(p.fullname, 'has a first cousin married to', p2.fullname),
 p.id, p2.id
 from is_firstcousin_of_spouse_of i
 join JewishMeNames p
