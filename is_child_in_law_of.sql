@@ -15,7 +15,7 @@ from has_been_married_to m
 join is_child_of c
 
 where m.relation_id = c.person_id  -- the person is married to the child of relation
-AND c.person_fullname = "Harris Gleckman"
+AND c.person_fullname LIKE "%Gleckman"
 LIMIT 0, 999999
 
 \G;
