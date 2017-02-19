@@ -21,10 +21,8 @@ join has_been_married_to as m
 join JewishMeNames as p2
 where
 p.id = coz.person_id
-AND (coz.relation_id = m.person_id AND m.relation_id = p2.id)
-or (coz.relation_id = m.relation_id AND m.person_id = p2.id)
+AND coz.relation_id = m.person_id AND m.relation_id = p2.id
 AND m.relation_id <> 0
-AND p.firstname like 'Frances%'
 AND p.lastname = 'Gleckman'
 limit 999999
 \G;
