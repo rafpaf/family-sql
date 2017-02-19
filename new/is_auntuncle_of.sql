@@ -28,7 +28,6 @@ where
 AND rs.relation_id = rc.relation_id
 AND rc.person_id = p2.id
 AND p.id <> p2.id
-AND p.lastname in ('Gleckman')
 LIMIT 0, 999999
 
 \G;
