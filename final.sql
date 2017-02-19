@@ -183,7 +183,7 @@ select * from
     WHERE cemetery LIKE '%Sinai%'
 ) as list
 LIMIT 99999999
-into outfile '/Users/raf/code/smjca/mountsinai.csv'
+into outfile '/Users/raf/code/smjca/output/mountsinai.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
 
 select * from
@@ -206,5 +206,5 @@ select * from
     WHERE cemetery LIKE '%Smith%'
 ) as list
 LIMIT 99999999
-into outfile '/Users/raf/code/smjca/smithstreet.csv'
+into outfile '/Users/raf/code/smjca/output/smithstreet.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
