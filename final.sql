@@ -25,7 +25,7 @@ p.firstname as p1_firstname,
 if(p.Gender like '%f%','wife of','husband of') as relationship_more_specific,
 p2.lastname as p2_lastname,
 p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from has_been_married_to i
 join JewishMeNames p
@@ -41,7 +41,7 @@ p.firstname as p1_firstname,
 'child of' as relationship,
 if(p.Gender like '%f%','daughter of','son of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_child_of i
 join JewishMeNames p
@@ -56,7 +56,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'sibling of' as relationship,
 if(p.Gender like '%f%','sister of','brother of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_sibling_of i
 join JewishMeNames p
@@ -71,7 +71,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'parent of' as relationship,
 if(p.Gender like '%f%','mother of','father of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_child_of i
 join JewishMeNames p
@@ -86,7 +86,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'grandparent of' as relationship,
 if(p.Gender like '%f%','grandmother of','grandfather of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_grandparent_of i
 join JewishMeNames p
@@ -101,7 +101,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'aunt/uncle of' as relationship,
 if(p.Gender like '%f%','aunt of','uncle of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_auntuncle_of i
 join JewishMeNames p
@@ -116,7 +116,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'niece/nephew of' as relationship,
 if(p.Gender like '%f%','niece of','nephew of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_niecenephew_of i
 join JewishMeNames p
@@ -131,7 +131,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'first cousin of' as relationship,
 'first cousin of',
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_firstcousin_of i
 join JewishMeNames p
@@ -146,7 +146,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'greataunt/greatuncle of' as relationship,
 if(p.Gender like '%f%','greataunt of','greatuncle of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_grandniecenephew_of i
 join JewishMeNames p
@@ -161,7 +161,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'grandniece/grandnephew of' as relationship,
 if(p.Gender like '%f%','grandniece of','grandnephew of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_grandniecenephew_of i
 join JewishMeNames p
@@ -176,7 +176,7 @@ p.lastname as p1_lastname, p.firstname as p1_firstname,
 'parent-in-law of' as relationship,
 if(p.Gender like '%f%','mother-in-law of','father-in-law of') as relationship_more_specific,
 p2.lastname as p2_lastname, p2.firstname as p2_firstname,
-if(p2.DOD_old OR p2.DOD or DODyr is not null) as p2_is_deceased,
+if(p2.DOD_old OR p2.DOD or p2.DeathYr is not null, TRUE, FALSE) as p2_is_deceased,
 p.id as p1_id, p2.id as p2_id
 from is_child_in_law_of i
 join JewishMeNames p
@@ -202,6 +202,7 @@ select * from
     'relationship_more_specific',
     'p2_lastname',
     'p2_firstname',
+    'p2_is_deceased',
     'p1_id',
     'p2_id'
     union
@@ -225,6 +226,7 @@ select * from
     'relationship_more_specific',
     'p2_lastname',
     'p2_firstname',
+    'p2_is_deceased',
     'p1_id',
     'p2_id'
     union
