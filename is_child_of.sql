@@ -7,20 +7,23 @@ set sql_big_selects=1;
 -- create table if not exists is_child_of like is_sibling_of;
 
 insert ignore into is_child_of (person_id, person_fullname, relation_id, relation_fullname)
--- select
--- p.id as person_id,
--- p.fullname as person_fullname,
--- p2.id as relation_id,
--- p2.fullname as relation_fullname
--- from JewishMeNames as p
--- join JewishMeNames as p2
--- where
--- p.id <> 0
--- and p2.id <> 0
--- and p2.id in (p.motherid, p.fatherid)
--- 
--- union
 
+-- inferred from motherid and fatherid
+select
+p.id as person_id,
+p.fullname as person_fullname,
+p2.id as relation_id,
+p2.fullname as relation_fullname
+from JewishMeNames as p
+join JewishMeNames as p2
+where
+p.id <> 0
+and p2.id <> 0
+and p2.id in (p.motherid, p.fatherid)
+
+union
+
+-- inferred from Relationships table, rows marked 'son of', 'daughter of'
 select
 p2.id as person_id,
 p2.fullname as person_fullname,
@@ -32,4 +35,17 @@ on p.id = r.PersonId
 join JewishMeNames as p2
 on p2.id = r.RelRecId2
 where r.Relationship_1 in ("Son","Daughter","son","daughter")
+
+-- inferred from Relationships table, rows marked 'mother of', 'father of'
+select
+p.id as person_id,
+p.fullname as person_fullname,
+p2.id as relation_id,
+p2.fullname as relation_fullname
+from JewishMeNames as p
+join Relationships r
+on p.id = r.PersonId
+join JewishMeNames as p2
+on p2.id = r.RelRecId2
+where r.Relationship_1 in ("Father","Mother")
 \G;
