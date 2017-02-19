@@ -1,8 +1,10 @@
 set sql_big_selects=1;
 
-rename table is_niecenephew_of to is_niecenephew_of__20170219_1018;
+-- Backup existing table
+SET @tablename = 'is_niecenephew_of';
 
--- drop table is_niecenephew_of;
+SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:',
+    @tablename, '_', CURDATE(), '_', CURTIME(), '`'); PREPARE STMT FROM @query; EXECUTE STMT;
 
 create table if not exists is_niecenephew_of like is_child_of;
 
@@ -11,22 +13,13 @@ insert into is_niecenephew_of (person_id, person_fullname, relation_id,
 select
 
 distinct
-p.id as person_id,
-p.fullname as person_fullname,
-p2.id as relation_id,
-p2.fullname as relation_fullname
+i.relation_id as person_id,
+i.relation_fullname as person_fullname,
+i.person_id as relation_id,
+i.person_fullname as relation_fullname,
 
-from JewishMeNames as p
-join is_child_of as rc
-join is_sibling_of as rs
-join JewishMeNames as p2
+from is_auntuncle_of i
 
-where
-    p.id = rc.person_id
-AND rc.relation_id = rs.person_id
-AND rs.relation_id = p2.id
-AND p.id <> p2.id
--- AND p.AASurname = "Gleckman"
 LIMIT 0, 999999
 
 \G;
