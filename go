@@ -4,3 +4,4 @@ run final.sql
 cd output/
 git add .
 git commit -m "Committed automatically by script"
+git push origin master

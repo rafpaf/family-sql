@@ -184,7 +184,7 @@ select * from
 ) as list
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/output/mountsinai.csv'
-fields terminated by ';' enclosed by '"' lines terminated by '\n';
+fields terminated by ',' enclosed by '"' lines terminated by '\n';
 
 select * from
 (
@@ -207,4 +207,4 @@ select * from
 ) as list
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/output/smithstreet.csv'
-fields terminated by ';' enclosed by '"' lines terminated by '\n';
+fields terminated by ',' enclosed by '"' lines terminated by '\n';
