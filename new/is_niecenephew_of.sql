@@ -1,6 +1,8 @@
 set sql_big_selects=1;
 
-drop table is_niecenephew_of;
+rename table is_niecenephew_of to is_niecenephew_of__20170219_1018;
+
+-- drop table is_niecenephew_of;
 
 create table if not exists is_niecenephew_of like is_child_of;
 
