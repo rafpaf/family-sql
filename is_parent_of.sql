@@ -1,19 +1,25 @@
-
 set sql_big_selects=1;
 
--- if x is_child_of y and z is_child_of y then x is_sibling_of z
+-- Backup existing table
+SET @tablename = 'is_parent_of';
 
-insert into relations (person_id, person_fullname, relation_type, relation_id, relation_fullname)
+SELECT @query := CONCAT('RENAME TABLE `', @tablename, '` TO `backup:',
+    @tablename, '_', CURDATE(), '_', CURTIME(), '`'); PREPARE STMT FROM @query; EXECUTE STMT;
+
+create table if not exists is_parent_of like is_child_of;
+
+insert into is_parent_of (person_id, person_fullname, relation_id,
+    relation_fullname)
 select
-p.PersonId as person_id,
-p.fullname as person_fullname,
-'is_parent_of' as relation_type,
-child.PersonId as relation_id,
-child.fullname as relation_fullname
-from JewishMeNames as p
-join relations as r
-on (PersonId = relation_id and relation_type = "is_child_of")
-join JewishMeNames as child
-on child.PersonId = r.person_id
-where relation_id <> 0
+
+distinct
+i.relation_id as person_id,
+i.relation_fullname as person_fullname,
+i.person_id as relation_id,
+i.person_fullname as relation_fullname
+
+from is_child_of i
+
+LIMIT 0, 999999
+
 \G;
