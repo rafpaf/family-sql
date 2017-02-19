@@ -11,6 +11,7 @@ relationship varchar(255),
 relationship_more_specific varchar(255),
 p2_lastname varchar(255),
 p2_firstname varchar(255),
+p2_is_deceased boolean,
 p1_id integer,
 p2_id integer)
 (
@@ -24,6 +25,7 @@ p.firstname as p1_firstname,
 if(p.Gender like '%f%','wife of','husband of') as relationship_more_specific,
 p2.lastname as p2_lastname,
 p2.firstname as p2_firstname,
+if(p2.DOD_old OR p2.DOD or DODyr),
 p.id as p1_id, p2.id as p2_id
 from has_been_married_to i
 join JewishMeNames p
@@ -157,6 +159,20 @@ join JewishMeNames p
 join JewishMeNames p2
 where p.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
 AND p2.id = i.relation_id
+
+union
+
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
+p.lastname as p1_lastname, p.firstname as p1_firstname,
+'parent-in-law of' as relationship,
+if(p.Gender like '%f%','mother-in-law of','father-in-law of') as relationship_more_specific,
+p2.lastname as p2_lastname, p2.firstname as p2_firstname,
+p.id as p1_id, p2.id as p2_id
+from is_child_in_law_of i
+join JewishMeNames p
+join JewishMeNames p2
+where p2.id = i.person_id and (p.Cemetery LIKE '%Sinai%' OR p.Cemetery LIKE '%Smith%')
+AND p.id = i.relation_id
 
 ) as list
 )
