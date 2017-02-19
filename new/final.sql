@@ -164,7 +164,7 @@ AND p2.id = i.relation_id
 select * from
 (
     select
-    'cemetery',
+    '_cemetery',
     'section',
     'subsection',
     'plot',
