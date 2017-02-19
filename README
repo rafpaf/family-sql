@@ -1,0 +1,19 @@
+These SQL queries create tables that represent the following familial
+predicates. The earlier predicates in this list are used to infer the later
+predicates.
+
+- "X is a child of Y"
+- "X is a spouse of Y"
+- "X is a parent of Y"
+- "X is a sibling of Y"
+- "X is a niece/nephew of Y"
+- "X is a grandniece/grandnephew of Y"
+- "X is a first cousin of Y"
+- "X is a first cousin of the spouse of Y"
+- "X is a son-in-law or daughter-in-law of Y"
+
+I describe these relationships in the present tense even if they only held in
+the past because people passed away or split up with their spouses.
+
+In the future I expect to implement:
+- "X is married to the first cousin of Y"
