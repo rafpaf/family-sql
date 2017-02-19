@@ -4,6 +4,7 @@ create table smjca_relation (
 cemetery varchar(60),
 section varchar(10),
 subsection varchar(10),
+plot varchar(100),
 p1_lastname varchar(255),
 p1_firstname varchar(255),
 relationship varchar(255),
@@ -16,7 +17,7 @@ p2_id integer)
     select cemetery, section, subsection, p1_lastname, p1_firstname, relationship, relationship_more_specific, p2_lastname, p2_firstname, p1_id, p2_id
     from (
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname,
 p.firstname as p1_firstname,
 'spouse of' as relationship,
@@ -32,7 +33,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname,
 p.firstname as p1_firstname,
 'child of' as relationship,
@@ -47,7 +48,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'sibling of' as relationship,
 if(p.Gender like '%f%','sister of','brother of') as relationship_more_specific,
@@ -61,7 +62,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'parent of' as relationship,
 if(p.Gender like '%f%','mother of','father of') as relationship_more_specific,
@@ -75,7 +76,7 @@ AND p2.id = i.person_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'grandparent of' as relationship,
 if(p.Gender like '%f%','grandmother of','grandfather of') as relationship_more_specific,
@@ -89,7 +90,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'aunt/uncle of' as relationship,
 if(p.Gender like '%f%','aunt of','uncle of') as relationship_more_specific,
@@ -103,7 +104,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'niece/nephew of' as relationship,
 if(p.Gender like '%f%','niece of','nephew of') as relationship_more_specific,
@@ -117,7 +118,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'first cousin of' as relationship,
 'first cousin of',
@@ -131,7 +132,7 @@ AND p2.id = i.relation_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'greataunt/greatuncle of' as relationship,
 if(p.Gender like '%f%','greataunt of','greatuncle of') as relationship_more_specific,
@@ -145,7 +146,7 @@ AND p2.id = i.person_id
 
 union
 
-select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection,
+select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
 p.lastname as p1_lastname, p.firstname as p1_firstname,
 'grandniece/grandnephew of' as relationship,
 if(p.Gender like '%f%','grandniece of','grandnephew of') as relationship_more_specific,
@@ -166,6 +167,7 @@ select * from
     'cemetery',
     'section',
     'subsection',
+    'plot',
     'p1_lastname',
     'p1_firstname',
     'relationship',
