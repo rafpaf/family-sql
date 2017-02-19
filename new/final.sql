@@ -11,6 +11,7 @@ p2_firstname varchar(255),
 p1_id integer,
 p2_id integer)
 (
+    select * from (
 
 select p.Cemetery, p.Section, p.Subsection,
 p.lastname, p.firstname,
@@ -150,6 +151,7 @@ join JewishMeNames p2
 where p.id = i.person_id and p.sinai
 AND p2.id = i.relation_id
 
+) as list
 );
 
 select * from
