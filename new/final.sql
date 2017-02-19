@@ -178,8 +178,8 @@ select * from
     'p2_id'
     union
     select * from smjca_relation
+    order by 1, 2, 3, 4
 ) as list
-order by 1, 2, 3, 4
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/final.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
