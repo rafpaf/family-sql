@@ -14,7 +14,7 @@ p2_firstname varchar(255),
 p1_id integer,
 p2_id integer)
 (
-    select cemetery, section, subsection, p1_lastname, p1_firstname, relationship, relationship_more_specific, p2_lastname, p2_firstname, p1_id, p2_id
+    select * -- cemetery, section, subsection, p1_lastname, p1_firstname, relationship, relationship_more_specific, p2_lastname, p2_firstname, p1_id, p2_id
     from (
 
 select p.Cemetery as cemetery, p.Section as section, p.Subsection as subsection, p.Plot2 as plot,
@@ -159,12 +159,14 @@ where p.id = i.person_id and p.sinai
 AND p2.id = i.relation_id
 
 ) as list
-);
+)
+order by 1, 2, 3, 4
+;
 
 select * from
 (
     select
-    '_cemetery',
+    'cemetery',
     'section',
     'subsection',
     'plot',
@@ -178,7 +180,6 @@ select * from
     'p2_id'
     union
     select * from smjca_relation
-    order by 1, 2, 3, 4
 ) as list
 LIMIT 99999999
 into outfile '/Users/raf/code/smjca/final.csv'
