@@ -20,4 +20,18 @@ from is_niecenephew_of as nn
 join is_child_of as c
 where nn.relation_id = c.relation_id
 limit 999999
+
+union
+
+select
+p2.id as person_id,
+p2.fullname as person_fullname,
+p.id as relation_id,
+p.fullname as relation_fullname
+from JewishMeNames as p
+join Relationships r
+on p.id = r.PersonId
+join JewishMeNames as p2
+on p2.id = r.RelRecId2
+where (r.Relationship_1 like "%first cousin%" or r.Relationship_1 like '%1st cousin%')
 \G;
