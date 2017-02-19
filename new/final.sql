@@ -101,10 +101,10 @@ union
 
 select p.Cemetery, p.Section, p.Subsection,
 p.lastname, p.firstname,
-'has a first cousin married to',
+'is a first cousin of',
 p2.lastname, p2.firstname,
 p.id, p2.id
-from is_firstcousin_of_spouse_of i
+from is_firstcousin_of i
 join JewishMeNames p
 join JewishMeNames p2
 where p.id = i.person_id and p.sinai
