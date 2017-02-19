@@ -2,7 +2,6 @@ because some queries require that other queries have already run, you need to ru
 
 is_child_of
 is_sibling_of
-
 has_been_married_to
 
 is_grandchild_of

@@ -2,23 +2,20 @@
 
 set sql_big_selects=1;
 
+rename table is_grandchild_of to is_grandchild_of__20170219_1017;
+
 create table is_grandchild_of like is_child_of;
 
 insert is_grandchild_of
 select
 distinct
-p.id as person_id,
-p.fullname as person_fullname,
-p2.id as relation_id,
-p2.fullname as relation_fullname
-from JewishMeNames as p
-join is_child_of as rc
+rc.person_id as person_id,
+rc.person_fullname as person_fullname,
+rc2.relation_id as relation_id,
+rc2.relation_fullname as relation_fullname
+from is_child_of as rc
 join is_child_of as rc2
-join JewishMeNames as p2
-where p.id <> 0 AND p2.id <> 0
-AND p.id = rc.person_id
-AND rc.relation_id = rc2.person_id
-AND rc2.relation_id = p2.id
+where rc.relation_id = rc2.person_id
 LIMIT 999999
 \G;
 
