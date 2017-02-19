@@ -3,7 +3,9 @@ set sql_big_selects=1;
 -- if x is_child_of y and z is_child_of y then x is_sibling_of z
 -- this includes half siblings
 
-rename table is_auntuncle_of to is_auntuncle_of__old;
+-- rename table is_auntuncle_of to is_auntuncle_of__old;
+
+drop table is_auntuncle_of;
 
 create table if not exists is_auntuncle_of like is_child_of;
 
@@ -23,9 +25,10 @@ join JewishMeNames as p2
 
 where
     p.id = rs.person_id
-AND rs.relation_id = rc.person_id
-AND rc.relation_id = p2.id
-AND rc.person_id <> rc.relation_id
+AND rs.relation_id = rc.relation_id
+AND rc.person_id = p2.id
+AND p.id <> p2.id
+AND p.lastname in ('Gleckman')
 LIMIT 0, 999999
 
 \G;
