@@ -181,7 +181,30 @@ select * from
     union
     select * from smjca_relation
 ) as list
+WHERE 1 = 'cemetery' OR 1 LIKE '%Sinai%'
 LIMIT 99999999
-into outfile '/Users/raf/code/smjca/final.csv'
+into outfile '/Users/raf/code/smjca/mountsinai.csv'
 fields terminated by ';' enclosed by '"' lines terminated by '\n';
-;
+
+select * from
+(
+    select
+    'cemetery',
+    'section',
+    'subsection',
+    'plot',
+    'p1_lastname',
+    'p1_firstname',
+    'relationship',
+    'relationship_more_specific',
+    'p2_lastname',
+    'p2_firstname',
+    'p1_id',
+    'p2_id'
+    union
+    select * from smjca_relation
+) as list
+WHERE 1 = 'cemetery' OR 1 LIKE '%Smith%'
+LIMIT 99999999
+into outfile '/Users/raf/code/smjca/smithstreet.csv'
+fields terminated by ';' enclosed by '"' lines terminated by '\n';
